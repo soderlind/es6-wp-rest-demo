@@ -57,6 +57,8 @@ register_rest_route(
 		'methods'             => \WP_REST_Server::CREATABLE, // CREATABLE = POST. READABLE = GET.
 		'callback'            => __NAMESPACE__ . '\\es6_rest',
 		'permission_callback' => __NAMESPACE__ . '\\es6_rest_permissions_check',
+		// 'permission_callback  => 'is_user_logged_in', // Only logged in users can access this endpoint.
+		// 'permission_callback' => '__return_true', // Everyone can access this endpoint.
 		'args'                => [
 			'sum' => [
 				'validate_callback' => function( $param, $request, $key ) {
