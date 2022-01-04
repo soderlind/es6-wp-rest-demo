@@ -2,11 +2,11 @@
 
 ## Prerequisite
 
-Familiarize yourself with the [key technical concepts]() behind how the REST API functions.
+Familiarize yourself with the [key technical concepts](https://developer.wordpress.org/rest-api/key-concepts/) behind how the REST API functions.
 
 ## Look at the code
 
-I recommend that you take a look at the[JavaScript](https://github.com/soderlind/es6-wp-rest-demo/blob/master/es6-wp-rest-demo.js) and [PHP](https://github.com/soderlind/es6-wp-rest-demo/blob/master/es6-wp-rest-demo.js) code, it's not hard to understand what's happening.
+I recommend that you take a look at the [JavaScript](https://github.com/soderlind/es6-wp-rest-demo/blob/master/es6-wp-rest-demo.js) and [PHP](https://github.com/soderlind/es6-wp-rest-demo/blob/master/es6-wp-rest-demo.js) code, it's not hard to understand what's happening.
 
 ### JavaScript (ES6)
 
@@ -73,7 +73,7 @@ register_rest_route(
 ```php
 function es6_rest_permissions_check( \WP_REST_Request $request ) : bool {
 	return true; // Allow all.
-	// return current_user_can( 'edit_posts' ); // Give access to administrators.
+	// return current_user_can( 'manage_options' ); // Give access to administrators.
 	// return is_logged_in(); // Give access to logged in users.
 }
 ```
