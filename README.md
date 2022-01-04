@@ -1,65 +1,102 @@
-# WordPress Ajax using native JavaScript
-
+# WordPress REST using native JavaScript
 
 ## Prerequisite
 
-You should know [how WordPress does Ajax](https://developer.wordpress.org/plugins/javascript/ajax/).
+Familiarize yourself with the [key technical concepts]() behind how the REST API functions.
 
 ## Look at the code
 
-I recommend that you [take a look at the code](https://github.com/soderlind/es6-wp-ajax-demo/blob/master/es6-wp-ajax-demo.js), it's not hard to understand what's happening.
+I recommend that you take a look at the[JavaScript](https://github.com/soderlind/es6-wp-rest-demo/blob/master/es6-wp-rest-demo.js) and [PHP](https://github.com/soderlind/es6-wp-rest-demo/blob/master/es6-wp-rest-demo.js) code, it's not hard to understand what's happening.
 
 ### JavaScript (ES6)
 
-First I create the `data` object using [FormData](https://javascript.info/formdata).
+First I create the `data` object using [JSON.stringify](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify).
 
 ```javascript
-const data = new FormData();
-data.append('action', 'es6_ajax_action');
-data.append('nonce', pluginES6WPAjax.nonce);
-data.append('sum', self.dataset.sum);
+const data = JSON.stringify({
+  sum: self.dataset.sum,
+});
 ```
 
-Then I use [aync/await](https://javascript.info/async-await) with [fetch](https://javascript.info/fetch) to do the ajax call.
+Then I use [aync/await](https://javascript.info/async-await) with [fetch](https://javascript.info/fetch) to do the REST call.
+
+> I use [fetch](https://javascript.info/fetch) instead of [jQuery.ajax](https://api.jquery.com/jquery.ajax/) because I want to use [ES6](https://javascript.info/es6-features) and [async/await](https://javascript.info/async-await).
+
+> I set the nonce in the header using [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers). For WordPress, the nonce is set in the `X-WP-Nonce` header.
 
 ```javascript
 const response = await fetch(url, {
-	method: 'POST',
-	credentials: 'same-origin',
-	body: data
+  headers: new Headers({
+    "X-WP-Nonce": pluginES6WPREST.nonce,
+    "content-type": "application/json",
+  }),
+  method: "POST",
+  credentials: "same-origin",
+  body: data,
 });
 
 const res = await response.json();
-if (res.response == 'success') {
-	self.dataset.sum = res.data;
-	output.innerHTML = res.data;
-	console.log(res);
+if (res.response === "success") {
+  self.dataset.sum = res.data;
+  output.innerHTML = res.data;
+  console.log(res);
 } else {
-	console.error(res);
+  console.error(res);
 }
 ```
 
-Note: [previous release](https://github.com/soderlind/es6-wp-ajax-demo/releases/tag/1.0.2) use [fetch().then().catch()](https://github.com/soderlind/es6-wp-ajax-demo/blob/1.0.2/es6-wp-ajax-demo.js#L23-L39)
-
-
-Note 2: Why move from `fetch().then().catch()` to `async/await`? Because V8 ..
-
-> [favor async functions and await over hand-written promise code](https://v8.dev/blog/fast-async#conclusion)
-> - V8 dev blog
-
-
 ### PHP
 
-The PHP code is more or less the same as you would do when using jQuery, but I've added the `fetch` [polyfill](https://en.wikipedia.org/wiki/Polyfill_(programming))
+In PHP register the [WP REST API](https://developer.wordpress.org/rest-api/extending-the-rest-api/) endpoint.
 
 ```php
-// Load the fetch polyfill, url via https://polyfill.io/v3/url-builder/.
-wp_enqueue_script( 'polyfill-fetch',
-	'https://polyfill.io/v3/polyfill.min.js?features=fetch',
-	[],
-	ES6_WP_AJAX_DEMO_VERSION,
-	true
+register_rest_route(
+	REST_NAMESPACE,
+	'/' . REST_BASE,
+	[
+		'methods'             => \WP_REST_Server::CREATABLE, // CREATABLE = POST. READABLE = GET.
+		'callback'            => __NAMESPACE__ . '\\es6_rest',
+		'permission_callback' => __NAMESPACE__ . '\\es6_rest_permissions_check',
+		'args'                => [
+			'sum' => [
+				'validate_callback' => function( $param, $request, $key ) {
+					return is_numeric( $param );
+				},
+			],
+		],
+	]
 );
+```
+
+> Note: `permission_callback` is optional, if missing will trigger a deprecated notice. The workaround is to return true
+
+```php
+function es6_rest_permissions_check( \WP_REST_Request $request ) : bool {
+	return true; // Allow all.
+	// return current_user_can( 'edit_posts' ); // Give access to administrators.
+	// return is_logged_in(); // Give access to logged in users.
+}
+```
+
+The REST callback is similar to the WP Ajax callback.
+
+```php
+function es6_rest( \WP_REST_Request $request ) : array {
+
+	$params = $request->get_params();
+	$sum    = $params['sum'] ?? 0;
+	if ( isset( $sum ) ) {
+		$response['response'] = 'success';
+		$sum                  = ++$sum;
+		$response['data']     = $sum;
+		update_option( 'es6demo_sum', $sum );
+	} else {
+		$response['response'] = 'failed';
+		$response['data']     = 'something went wrong ...';
+	}
+
+	return $response;
+}
 ```
 
 ## Demo
@@ -68,18 +105,17 @@ Not very exciting, the demo increments a number when you click on a button.
 
 ## Installation
 
-- [Download the plugin](https://github.com/soderlind/es6-wp-ajax-demo/archive/master.zip)
+- [Download the plugin](https://github.com/soderlind/es6-wp-rest-demo/archive/master.zip)
 - Install and activate the plugin.
 - Add the `[es6demo]` shortcode to a page.
 - Click on the `+` button to increment the number.
 
 ## Copyright and License
 
-es6-wp-ajax-demo is copyright 2019 Per Soderlind
+es6-wp-rest-demo is copyright 2019 Per Soderlind
 
-es6-wp-ajax-demo is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
+es6-wp-rest-demo is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
 
-es6-wp-ajax-demo is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+es6-wp-rest-demo is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
 
 You should have received a copy of the GNU Lesser General Public License along with the Extension. If not, see http://www.gnu.org/licenses/.
-
