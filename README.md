@@ -105,14 +105,14 @@ Not very exciting, the demo increments a number when you click on a button.
 
 ## Installation
 
-- [Download the plugin](https://github.com/soderlind/es6-wp-rest-demo/archive/master.zip)
+- [Download the plugin](https://github.com/soderlind/es6-wp-rest-demo/archive/refs/heads/main.zip)
 - Install and activate the plugin.
 - Add the `[es6demo]` shortcode to a page.
 - Click on the `+` button to increment the number.
 
 ## Copyright and License
 
-es6-wp-rest-demo is copyright 2019 Per Soderlind
+es6-wp-rest-demo is copyright 2022+ Per Soderlind
 
 es6-wp-rest-demo is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 2 of the License, or (at your option) any later version.
 
