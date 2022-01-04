@@ -1,5 +1,7 @@
 # WordPress REST using native JavaScript
 
+> If you prefer AJAX, take a look at [WordPress Ajax using native JavaScript](https://github.com/soderlind/es6-wp-ajax-demo)
+
 ## Prerequisite
 
 Familiarize yourself with the [key technical concepts](https://developer.wordpress.org/rest-api/key-concepts/) behind how the REST API functions.
@@ -76,7 +78,7 @@ function es6_rest_permissions_check( \WP_REST_Request $request ) : bool {
 }
 ```
 
-The REST callback is similar to the WP Ajax callback.
+The REST callback is similar to the [WP Ajax callback](https://github.com/soderlind/es6-wp-ajax-demo/blob/master/es6-wp-ajax-demo.php#L40-L59).
 
 ```php
 function es6_rest( \WP_REST_Request $request ) : array {
