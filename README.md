@@ -20,8 +20,6 @@ const data = JSON.stringify({
 
 Then I use [aync/await](https://javascript.info/async-await) with [fetch](https://javascript.info/fetch) to do the REST call.
 
-> I use [fetch](https://javascript.info/fetch) instead of [jQuery.ajax](https://api.jquery.com/jquery.ajax/) because I want to use [ES6](https://javascript.info/es6-features) and [async/await](https://javascript.info/async-await).
-
 > I set the nonce in the header using [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers). For WordPress, the nonce is set in the `X-WP-Nonce` header.
 
 ```javascript
