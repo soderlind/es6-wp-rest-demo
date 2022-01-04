@@ -91,7 +91,7 @@ function es6_rest( \WP_REST_Request $request ) : array {
  */
 function es6_rest_permissions_check( \WP_REST_Request $request ) : bool {
 	return true; // Allow all.
-	// return current_user_can( 'edit_posts' ); // Give access to administrators.
+	// return current_user_can( 'manage_options' ); // Give access to administrators.
 	// return is_logged_in(); // Give access to logged in users.
 }
 
