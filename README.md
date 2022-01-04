@@ -6,7 +6,7 @@ Familiarize yourself with the [key technical concepts](https://developer.wordpre
 
 ## Look at the code
 
-I recommend that you take a look at the [JavaScript](https://github.com/soderlind/es6-wp-rest-demo/blob/master/es6-wp-rest-demo.js) and [PHP](https://github.com/soderlind/es6-wp-rest-demo/blob/master/es6-wp-rest-demo.js) code, it's not hard to understand what's happening.
+I recommend that you take a look at the [JavaScript](https://github.com/soderlind/es6-wp-rest-demo/blob/master/es6-wp-rest-demo.js) and [PHP](https://github.com/soderlind/es6-wp-rest-demo/blob/master/es6-wp-rest-demo.php) code, it's not hard to understand what's happening.
 
 ### JavaScript (ES6)
 
@@ -95,6 +95,18 @@ function es6_rest( \WP_REST_Request $request ) : array {
 
 	return $response;
 }
+```
+
+Setting the nonce and rest_url is done using the `wp_add_inline_script` function.
+
+```php
+$data = wp_json_encode(
+	[
+		'nonce'   => wp_create_nonce( 'wp_rest' ), // NOTE: Must be "wp_rest" for the REST API.
+		'restURL' => rest_url() . REST_ENDPOINT,
+	]
+)
+wp_add_inline_script( 'es6-wp-rest', "const pluginES6WPREST = ${data};" );
 ```
 
 ## Demo
