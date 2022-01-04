@@ -1,0 +1,8 @@
+{
+    "name": "soderlind/es6-wp-rest-demo",
+    "description": "ES6 WP REST Demo",
+    "type": "wordpress-plugin",
+    "homepage": "https://github.com/soderlind/es6-wp-rest-demo",
+    "license": "GPL-2.0-or-later",
+    "require": {}
+}
