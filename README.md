@@ -117,9 +117,9 @@ wp_add_inline_script( 'es6-wp-rest', "const pluginES6WPREST = ${data};" );
 
 Not very exciting, the demo increments a number when you click on a button.
 
-I you would like another example, take a look at https://github.com/soderlind/super-admin-all-sites-menu/blob/main/src/modules/rest.js
+>I you would like another example, take a look at https://github.com/soderlind/super-admin-all-sites-menu/blob/main/src/modules/rest.js
 
-## Installation
+### Installation
 
 - [Download the plugin](https://github.com/soderlind/es6-wp-rest-demo/archive/refs/heads/main.zip)
 - Install and activate the plugin.
