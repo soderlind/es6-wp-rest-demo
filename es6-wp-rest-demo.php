@@ -49,9 +49,9 @@ function es6_rest_api_init( \WP_REST_Server $wp_rest_server ) : void {
 			'callback'            => __NAMESPACE__ . '\\es6_rest', // What to do when the request is received.
 			'permission_callback' => __NAMESPACE__ . '\\es6_rest_permissions_check', // NOT Optional, if missing will trigger a deprecated notice.
 			'args'                => [
-				'sum' => [
+				'sum' => [ // $_POST['sum']
 					'validate_callback' => function( $param, $request, $key ) {
-						return is_numeric( $param );
+						return is_numeric( $param ); // check if $_POST['sum'] is a number.
 					},
 				],
 			],
@@ -91,7 +91,7 @@ function es6_rest( \WP_REST_Request $request ) : array {
  */
 function es6_rest_permissions_check( \WP_REST_Request $request ) : bool {
 	return true; // Allow all.
-	// return current_user_can( 'manage_options' ); // Give access to administrators.
+	// return current_user_can( 'manage_options' ); // Give access to administrators. More capabilities at https://wordpress.org/support/article/roles-and-capabilities/#capability-vs-role-table
 	// return is_logged_in(); // Give access to logged in users.
 }
 
