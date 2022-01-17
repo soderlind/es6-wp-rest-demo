@@ -1,16 +1,14 @@
 # WordPress REST using native JavaScript
 
-
-
->## What to choose? AJAX or REST?
+> ## What to choose? AJAX or REST?
 >
->There's an article on Slack that explains [the difference between AJAX and REST](https://wordpress.stackexchange.com/a/273781/14546).
+> There's an article on Slack that explains [the difference between AJAX and REST](https://wordpress.stackexchange.com/a/273781/14546).
 >
->The article is a bit dated, but it might be easier to work with the content when you use AJAX.
+> The article is a bit dated, but it might be easier to work with the content when you use AJAX.
 >
->Assess control is [easy to implement](#access-control) when using the REST API, I don't see the benefit of having two separate functions for logged-in and logged-out users
+> Assess control is [easy to implement](#access-control) when using the REST API, I don't see the benefit of having two separate functions for logged-in and logged-out users
 >
->If still you prefer AJAX, take a look at [WordPress Ajax using native JavaScript](https://github.com/soderlind/es6-wp-ajax-demo)
+> If still you prefer AJAX, take a look at [WordPress Ajax using native JavaScript](https://github.com/soderlind/es6-wp-ajax-demo)
 
 ## Prerequisite
 
@@ -84,7 +82,7 @@ register_rest_route(
 
 > Note: `permission_callback` is optional, if missing it will trigger a deprecated notice. The workaround is to return true
 
-You control access by returning:
+You control access by returning, in the permission callback, a boolean value:
 
 - `true`: Allow all users, also anonymous, to access this endpoint.
 - `ìs_user_logged_in()`: Only logged in users can access this endpoint.
