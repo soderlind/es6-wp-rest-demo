@@ -8,9 +8,9 @@
 
 There's an article on Slack that explains [the difference between REST and AJAX](https://wordpress.stackexchange.com/a/273781/14546).
 
-The article is a bit old, but it might be easier to work with the content when you use wp-ajax.
+The article is a bit dated, but it might be easier to work with the content when you use AJAX.
 
-Assess control is (now) easy to implement when using the REST API, I don't see the benefit of having two separate functions for logged-in and logged-out users
+Assess control is [easy to implement](#access-control) when using the REST API, I don't see the benefit of having two separate functions for logged-in and logged-out users
 
 ## Prerequisite
 
@@ -57,7 +57,7 @@ if (res.response === "success") {
 
 ### PHP
 
-In PHP register the [WP REST API](https://developer.wordpress.org/rest-api/extending-the-rest-api/) endpoint.
+### Register the [WP REST API](https://developer.wordpress.org/rest-api/extending-the-rest-api/) endpoint.
 
 ```php
 register_rest_route(
@@ -80,7 +80,9 @@ register_rest_route(
 );
 ```
 
-> Note: `permission_callback` is optional, if missing will trigger a deprecated notice. The workaround is to return true
+### Access control
+
+> Note: `permission_callback` is optional, if missing it will trigger a deprecated notice. The workaround is to return true
 
 ```php
 function es6_rest_permissions_check( \WP_REST_Request $request ) : bool {
@@ -89,6 +91,8 @@ function es6_rest_permissions_check( \WP_REST_Request $request ) : bool {
 	// return is_logged_in(); // Give access to logged in users.
 }
 ```
+
+### The REST callback
 
 The REST callback is similar to the [WP Ajax callback](https://github.com/soderlind/es6-wp-ajax-demo/blob/master/es6-wp-ajax-demo.php#L40-L59).
 
@@ -111,7 +115,11 @@ function es6_rest( \WP_REST_Request $request ) : array {
 }
 ```
 
-Setting the nonce and rest_url is done using the `wp_add_inline_script` function.
+### Nonce
+
+Setting the nonce and rest_url is added using the `wp_add_inline_script` function.
+
+> Note: You must use `wp_create_nonce( 'wp_rest' )` when you create the nonce.
 
 ```php
 $data = wp_json_encode(
@@ -127,7 +135,7 @@ wp_add_inline_script( 'es6-wp-rest', "const pluginES6WPREST = ${data};" );
 
 Not very exciting, the demo increments a number when you click on a button.
 
->I you would like another example, take a look at https://github.com/soderlind/super-admin-all-sites-menu/blob/main/src/modules/rest.js
+> I you would like another example, take a look at https://github.com/soderlind/super-admin-all-sites-menu/blob/main/src/modules/rest.js
 
 ### Installation
 
