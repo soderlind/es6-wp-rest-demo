@@ -6,7 +6,7 @@
 
 > If you prefer AJAX, take a look at [WordPress Ajax using native JavaScript](https://github.com/soderlind/es6-wp-ajax-demo)
 
-There's an article on Slack that explains [the difference between REST and AJAX](https://wordpress.stackexchange.com/a/273781/14546).
+There's an article on Slack that explains [the difference between AJAX and REST](https://wordpress.stackexchange.com/a/273781/14546).
 
 The article is a bit dated, but it might be easier to work with the content when you use AJAX.
 
