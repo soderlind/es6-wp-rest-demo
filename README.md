@@ -84,12 +84,36 @@ register_rest_route(
 
 > Note: `permission_callback` is optional, if missing it will trigger a deprecated notice. The workaround is to return true
 
+You control access by returning:
+
+- `true`: Allow all users, also anonymous, to access this endpoint.
+- `ìs_user_logged_in()`: Only logged in users can access this endpoint.
+- `current_user_can( 'manage_options' )`: Only users with the `manage_options` [capability](https://wordpress.org/support/article/roles-and-capabilities/#capability-vs-role-table) can access this endpoint.
+
+E.g.:
+
 ```php
 function es6_rest_permissions_check( \WP_REST_Request $request ) : bool {
 	return true; // Allow all.
 	// return current_user_can( 'manage_options' ); // Give access to administrators.
 	// return is_logged_in(); // Give access to logged in users.
 }
+```
+
+### Nonce
+
+The nonce and rest_url is added using the `wp_add_inline_script` function.
+
+> Note: You must use `wp_create_nonce( 'wp_rest' )` when you create the nonce.
+
+```php
+$data = wp_json_encode(
+	[
+		'nonce'   => wp_create_nonce( 'wp_rest' ), // NOTE: Must be "wp_rest" for the REST API.
+		'restURL' => rest_url() . REST_ENDPOINT,
+	]
+)
+wp_add_inline_script( 'es6-wp-rest', "const pluginES6WPREST = ${data};" );
 ```
 
 ### The REST callback
@@ -113,22 +137,6 @@ function es6_rest( \WP_REST_Request $request ) : array {
 
 	return $response;
 }
-```
-
-### Nonce
-
-Setting the nonce and rest_url is added using the `wp_add_inline_script` function.
-
-> Note: You must use `wp_create_nonce( 'wp_rest' )` when you create the nonce.
-
-```php
-$data = wp_json_encode(
-	[
-		'nonce'   => wp_create_nonce( 'wp_rest' ), // NOTE: Must be "wp_rest" for the REST API.
-		'restURL' => rest_url() . REST_ENDPOINT,
-	]
-)
-wp_add_inline_script( 'es6-wp-rest', "const pluginES6WPREST = ${data};" );
 ```
 
 ## Demo
