@@ -86,7 +86,7 @@ You control access by returning, in the permission callback, a boolean value:
 
 - `true`: Allow all users, also anonymous, to access this endpoint.
 - `ìs_user_logged_in()`: Only logged in users can access this endpoint.
-- `current_user_can( 'manage_options' )`: Only users with the `manage_options` [capability](https://wordpress.org/support/article/roles-and-capabilities/#capability-vs-role-table) can access this endpoint.
+- `current_user_can( 'manage_options' )`: Only users with the `manage_options` capability can access this endpoint. You can use other [capabilities](https://wordpress.org/support/article/roles-and-capabilities/#capability-vs-role-table) as well.
 
 E.g.:
 
