@@ -1,10 +1,10 @@
 # WordPress REST using native JavaScript
 
-> If you prefer AJAX, take a look at [WordPress Ajax using native JavaScript](https://github.com/soderlind/es6-wp-ajax-demo)
-
 ## FAQ
 
 ### What to choose? AJAX or REST?
+
+> If you prefer AJAX, take a look at [WordPress Ajax using native JavaScript](https://github.com/soderlind/es6-wp-ajax-demo)
 
 There's an article on Slack that explains [the difference between REST and AJAX](https://wordpress.stackexchange.com/a/273781/14546).
 
