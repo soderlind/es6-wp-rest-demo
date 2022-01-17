@@ -2,6 +2,16 @@
 
 > If you prefer AJAX, take a look at [WordPress Ajax using native JavaScript](https://github.com/soderlind/es6-wp-ajax-demo)
 
+## FAQ
+
+### What to choose? AJAX or REST?
+
+There's an article on Slack that explains [the difference between REST and AJAX](https://wordpress.stackexchange.com/a/273781/14546).
+
+The article is a bit old, but it might be easier to work with the content when you use wp-ajax.
+
+Assess control is (now) easy to implement when using the REST API, I don't see the benefit of having two separate functions for logged-in and logged-out users
+
 ## Prerequisite
 
 Familiarize yourself with the [key technical concepts](https://developer.wordpress.org/rest-api/key-concepts/) behind how the REST API functions.
