@@ -30,7 +30,7 @@ const data = JSON.stringify({
 
 Then I use [aync/await](https://javascript.info/async-await) with [fetch](https://javascript.info/fetch) to do the REST call.
 
-> I set the nonce in the header using [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers). For WordPress, the nonce is set in the `X-WP-Nonce` header.
+> I set the nonce in the header using [Headers](https://developer.mozilla.org/en-US/docs/Web/API/Headers). For WordPress, the nonce is set in the `X-WP-Nonce` header. The value is [set in PHP](#nonce).
 
 ```javascript
 const response = await fetch(url, {
@@ -82,7 +82,7 @@ register_rest_route(
 
 > Note: `permission_callback` is optional, if missing it will trigger a deprecated notice. The workaround is to return true
 
-You control access by returning, in the permission callback, a boolean value:
+You control access by returning, in the [permission callback](https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/#permissions-callback), a boolean value:
 
 - `true`: Allow all users, also anonymous, to access this endpoint.
 - `ìs_user_logged_in()`: Only logged in users can access this endpoint.
@@ -116,7 +116,9 @@ wp_add_inline_script( 'es6-wp-rest', "const pluginES6WPREST = ${data};" );
 
 ### The REST callback
 
-The REST callback is similar to the [WP Ajax callback](https://github.com/soderlind/es6-wp-ajax-demo/blob/master/es6-wp-ajax-demo.php#L40-L59).
+It's in the callback function you do the work.
+
+[The return](https://developer.wordpress.org/rest-api/extending-the-rest-api/adding-custom-endpoints/#return-value) value is converted to JSON, and returned to the client. You can return any form of data.
 
 ```php
 function es6_rest( \WP_REST_Request $request ) : array {
